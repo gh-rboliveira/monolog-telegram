@@ -20,16 +20,18 @@ Now Simply use it like this :
 ```php
 require 'vendor/autoload.php';
 use Monolog\Logger;
-use rahimi\TelegramHandler\TelegramHandler;
+use gh-rboliveira\TelegramHandler\TelegramHandler;
 
 $log = new Logger('TelegramHandler');
 //Create handler
 $telegramHandler = new TelegramHandler();
 
 //Add $token - your bot token provided by BotFather
+$token = 'XXXXXXXXX:qeQWLElwe_m232WE1K3WEe323eeTw';
 $telegramHandler->setBotToken($token);
 
 //Set Receipts - an array with telegram ids
+$recipients = ['123456789','987654321'];
 $telegramHandler->setRecipients($recipients);
 
 //Set Handler
