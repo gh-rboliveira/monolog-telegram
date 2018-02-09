@@ -82,9 +82,8 @@ class TelegramHandler extends AbstractProcessingHandler
         $format = new LineFormatter;
         $context = $record['context'] ? $format->stringify($record['context']) : '';
         $date = date($this->dateFormat);
-        $message = $date . PHP_EOL . $record['message'] . $context;
+        $message = $date .' - '. $record['level_name'] . PHP_EOL . PHP_EOL . $record['message'] . $context;
         $this->send($message);
-
     }
 
     /**
