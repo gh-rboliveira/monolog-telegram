@@ -110,15 +110,16 @@ class TelegramHandler extends AbstractProcessingHandler
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         foreach ($this->recipients as $recipient) {
 			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array(
-            'text'    => $message,
-            'chat_id' => $recipient,
-        )));
+				'text'    => $message,
+				'chat_id' => $recipient,
+			)));
+		
+			$result = curl_exec($ch);
+			$result = json_decode($result,1);
+			if($reult['ok'] === false){
+				echo  'telegram api response : ' .$result['description'];
+			}
 		}
-         $result = curl_exec($ch);
-         $result = json_decode($result,1);
-         if($result['ok'] === false){
-            echo  'telegram api response : ' .$result['description'];
-         }
        }catch(Exception $error){
          echo $error;
        }
