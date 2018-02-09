@@ -10,7 +10,7 @@ composer require gh-rboliveira/monolog-telegram
 
 
 # Usage
-it is just like other monolog handlers, you need to pass below paramaters to telegramhandler object:
+it is just like other monolog handlers, you need to pass below optional paramaters to telegramhandler object:
 - **$level** - The minimum logging level at which this handler will be triggered
 - **$bubble** - Whether the messages that are handled can bubble up the stack or not
 
