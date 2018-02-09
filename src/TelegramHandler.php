@@ -12,37 +12,63 @@ use Monolog\Logger;
  * This class helps you in logging your application events
  * into telegram using it's API.
  *
- * @author Moein Rahimi <m.rahimi2150@gmail.com>
  */
 
 class TelegramHandler extends AbstractProcessingHandler
 {
 
     private $token;
-    private $channel;
-    private $dateFormat;
+    private $recipients = [];
+    private $dateFormat = 'F j, Y, g:i a';
     const host = 'https://api.telegram.org/bot';
 
     /**
-     * getting token a channel name from Telegram Handler Object.
+     * create Telegram Handler Object.
      *
-     * @param string $token Telegram Bot Access Token Provided by BotFather
-     * @param string $channel Telegram Channel userName
-     * @param string|int @level Debug level of Logged Event
-
+     * @param int $level - The minimum logging level at which this handler will be triggered
+     * @param string $bubble - Whether the messages that are handled can bubble up the stack or not
+	 *
      */
 
-    public function __construct($token, $channel,$timeZone = 'UTC',$dateFormat='F j, Y, g:i a')
+    public function __construct($level = Logger::DEBUG, $bubble = true)
     {
-
+		parent::__construct($level, $bubble);
         if (!extension_loaded('curl')) {
             throw new Exception('curl is needed to use this library');
         }
-        $this->token   = $token;
-        $this->channel = $channel;
-        $this->dateFormat = $dateFormat;
-        date_default_timezone_set($timeZone);
     }
+	
+	/**
+	 * set bot token
+	 *
+	 * @param string $token
+	 * @return void
+	 */
+	public function setBotToken(string $token) {
+		$this->token = $token;
+	}
+	
+	/**
+	 * set message recipients
+	 *
+	 * @param array $recipients
+	 * @return void
+	 */
+	public function setRecipients(array $recipients) {
+		$this->recipients = $recipients;
+	}
+	
+	/**
+	 * set date format to be used on message
+	 * 
+	 * @param string $dateFormat
+	 * @param string $timezone_abbreviations_list
+	 * @return void
+	 */
+	public function setDateFormat(string $dateFormat, string $timeZone = 'UTC') {
+		$this->dateFormat = $dateFormat;
+        date_default_timezone_set($timeZone);
+	}
 
     /**
      * format the log to send
@@ -67,16 +93,27 @@ class TelegramHandler extends AbstractProcessingHandler
      */
     public function send($message)
     {
+		
       try{
+		  
+		if (!isset($this->token)) {
+			throw new Exception('No token added. No bot!');
+		}
+		if (!count($this->recipients)) {
+			throw new Exception('No recipients added. No one to send the message!');
+		}
+		
         $ch = curl_init();
         $url = self::host . $this->token . "/SendMessage";
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array(
+        foreach ($this->recipients as $recipient) {
+			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array(
             'text'    => $message,
-            'chat_id' => $this->channel,
+            'chat_id' => $recipient,
         )));
+		}
          $result = curl_exec($ch);
          $result = json_decode($result,1);
          if($result['ok'] === false){

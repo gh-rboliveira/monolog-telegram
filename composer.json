@@ -1,19 +1,19 @@
 {
-    "name": "rahimi/monolog-telegram",
+    "name": "gh-rboliveira/monolog-telegram",
     "description": "A handler for Monolog that sends messages to Telegram Channels",
         "keywords": ["monolog-telegram","log", "logging", "monolog", "telegram", "channels","bots"],
-        "homepage": "https://github.com/moeinrahimi/monolog-telegram",
+        "homepage": "https://github.com/gh-rboliveira/monolog-telegram",
     "license": "MIT",
     "authors": [
         {
-            "name": "Moein Rahimi",
-            "email": "m.rahimi2150@gmail.com",
-            "role": "Developer"
+            "name": "Rui Oliveira",
+            "email": "r.b.oliveira@outlook.pt",
+            "role": "Web Developer"
         }
     ],
     "autoload": {
         "psr-4": {
-            "rahimi\\TelegramHandler\\": "src"
+            "gh-rboliveira\\TelegramHandler\\": "src"
         }
     },
     "require": {

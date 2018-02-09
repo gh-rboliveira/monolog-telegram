@@ -1,39 +1,18 @@
 
-
-monolog-telegram
-=============
-
-Telegram Handler for php monolog which allows you to log messages into telegram channels using bots .
-
-[![Latest Stable Version](https://poser.pugx.org/rahimi/monolog-telegram/v/stable)](https://packagist.org/packages/rahimi/monolog-telegram)
-[![Total Downloads](https://poser.pugx.org/rahimi/monolog-telegram/downloads)](https://packagist.org/packages/rahimi/monolog-telegram)
-[![License](https://poser.pugx.org/rahimi/monolog-telegram/license)](https://packagist.org/packages/rahimi/monolog-telegram)
-
-# Screenshot
--------------
-![telegram handler demo screenshot](https://i.imgsafe.org/e4/e46f38474b.png)
-
-
-
-
-
 # Installation
 -----------
 Install using composer:
 
 ```bash
-composer require rahimi/monolog-telegram  
+composer require gh-rboliveira/monolog-telegram  
 ```
 
 
 
 # Usage
 it is just like other monolog handlers, you need to pass below paramaters to telegramhandler object:
-- **$token** your bot token provided by BotFather
-- **$channel** your telegram channel userName
-- **$date_default_timezone_set** choose date_default_timezone_set function timezone (optional)
-- **$dateFormat** pass date format (optional)
-
+- **$level** - The minimum logging level at which this handler will be triggered
+- **$bubble** - Whether the messages that are handled can bubble up the stack or not
 
 # Examples
 Now Simply use it like this :
@@ -42,9 +21,19 @@ Now Simply use it like this :
 require 'vendor/autoload.php';
 use Monolog\Logger;
 use rahimi\TelegramHandler\TelegramHandler;
-$log = new Logger('TelegramHandler');
-$log->pushHandler(new TelegramHandler($token,$channel,'UTC','F j, Y, g:i a'));
 
+$log = new Logger('TelegramHandler');
+//Create handler
+$telegramHandler = new TelegramHandler();
+
+//Add $token - your bot token provided by BotFather
+$telegramHandler->setBotToken($token);
+
+//Set Receipts - an array with telegram ids
+$telegramHandler->setRecipients($recipients);
+
+//Set Handler
+$log->pushHandler($telegramHandler);
 
 $log->info('hello world !');
 /**
