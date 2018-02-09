@@ -20,7 +20,7 @@ Now Simply use it like this :
 ```php
 require 'vendor/autoload.php';
 use Monolog\Logger;
-use gh-rboliveira\TelegramHandler\TelegramHandler;
+use gh_rboliveira\TelegramHandler\TelegramHandler;
 
 $log = new Logger('TelegramHandler');
 //Create handler
@@ -52,7 +52,7 @@ $log->error('hello world !');
 
 
 /**
-* Optionally you can pass second paramater such as a object
+* Optionally you can pass second parameter such as a object
 **/
 $log->info('user just logged in !',['user'=>$user]);
 

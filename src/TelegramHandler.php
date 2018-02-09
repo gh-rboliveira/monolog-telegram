@@ -1,5 +1,5 @@
 <?php
-namespace gh-rboliveira\TelegramHandler;
+namespace gh_rboliveira\TelegramHandler;
 
 use Exception;
 use Monolog\Formatter\LineFormatter;
